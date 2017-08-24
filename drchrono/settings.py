@@ -22,6 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '=*l&a&rk7jmiw$3euke*z9lu-na!^j^i&ddejfik!ajqlaymmc'
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -109,3 +110,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#Doctor Authentication
+REDIRECT_URI_ENCODED = "https://drchronohack.herokuapp.com/"
+CLIENT_ID_ENCODED = "3GN35uS1v5kIZiHCPEdtFdvpyaLEMl8nTGTQqLjo"
+CLIENT_ID = "3GN35uS1v5kIZiHCPEdtFdvpyaLEMl8nTGTQqLjo"
+CLIENT_SECRET_ID = "QyhoWAbPI2dLZLMv5b7yecExS7wdSYmJTdPHPK8WqOsTbDTGcWvKfI0Ui6nUb2lMGBuX8jxsvpLZlZWoCK1by2i01GM4eqTN2Se0dmqIcJocv0XdejICJ72uF4CVC2sY"

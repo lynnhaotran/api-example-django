@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		
+		<title>TreasureGram</title>
+
+	</head>
+
+	<body>
+		<h1>Calendar</h1>
+		<ul>
+		{% for a in appointments %}
+		<li>
+			<p>{{a.name}}</p>
+			<p>{{a.scheduled_time}}</p>
+			<p>{{a.duration}}</p>
+			<p>{{a.status}}</p>
+		</li>
+		{% endfor %}
+		</ul>
+	</body>
+
+</html>
