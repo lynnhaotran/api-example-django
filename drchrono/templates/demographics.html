@@ -1,8 +1,25 @@
-<h1>Welcome, Patient!</h1>
-<p>Please make sure your demographic information is up-to-date.</p>
-<form action="/update_demographics/" method="post">
-	{% csrf_token %}
-	{{ form.as_p }}
-	<input type="hidden" name="id" value="{{id}}" />
-	<input type="submit" value="Finish Checking In" />
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+		<link rel="stylesheet" href="{% static 'styles.css' %}">
+		<title>Drchrono Kiosk | Checkin</title>
+	</head>
+
+	<body>
+		<div class="vertical-center">
+			<div class="container">
+				<h1>Welcome, {{patient}}!</h1>
+				<p>Please make sure your demographic information is up-to-date.</p>
+				<form action="/update_demographics/" method="post">
+					{% csrf_token %}
+					{{ form.as_p }}
+					<input type="hidden" name="id" value="{{id}}" />
+					<input type="submit" value="Finish Checking In →" />
+				</form>
+			</div> →
+		</div>
+	</body>
+</html>

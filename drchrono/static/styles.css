@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300');
+
+body {
+
+	font-family: 'Lato', sans-serif;
+	background-color: rgba(192,192,192, 0.2);
+}
+
+form {
+	font-size: 1.5em;
+	margin: 10px;
+}
+
+input {
+	background-color: rgba(192,192,192, 0.2);
+	border: none;
+	padding: 5px 10px;
+}
+
+input:focus, 
+select:focus,
+textarea:focus,
+button:focus  {
+	outline: none;
+}
+
+.navbar-brand,
+.navbar-brand:hover {
+	color: rgba(0, 250, 100, 1.0);
+}
+
+.navbar-nav {
+	flex-direction: row;
+}
+
+.nav-item {
+	padding: 0 10px;
+}
+
+.nav-item:last-child {
+	padding-right: 0;
+}
+
+.nav-link {
+	color: rgba(255, 255, 255, 1.0);
+}
+
+.nav-link:hover {
+	color: rgba(0, 250, 100, 1.0);
+}
+
+.vertical-center {
+	min-height: 90%;  /* Fallback for browsers do NOT support vh unit */
+	min-height: 90vh; /* These two lines are counted as one :-)       */
+	min-width: 100%;
+	display: flex;
+	align-items: center;
+}
+
+.center {
+	text-align: center;
+}
+
+.right {
+	float: right;
+}
+
+.clear-nav {
+	padding-top: 30px;
+}
+
+.patient_list {
+	list-style: none;
+	padding: 0;
+}
+
+.patient {
+	border: 1px solid black;
+	border-radius: 10px;
+	margin: 5px;
+	padding: 10px;
+}
+
+.bottom-align {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}

@@ -10,7 +10,7 @@ class Doctor(models.Model):
 	access_token = models.CharField(max_length=100)
 	refresh_token = models.CharField(max_length=100)
 	token_expiration = models.DateTimeField(blank=True, null=True)
-	avg_wait_time = models.FloatField(default=0.0)
+	avg_wait_time = models.IntegerField(default=0)
 	patients_seen = models.IntegerField(default=0)
 
 	def __str__(self):
@@ -24,7 +24,7 @@ class Patient(models.Model):
 	scheduled_time = models.DateTimeField()
 	duration = models.IntegerField()
 	checkin_time = models.DateTimeField(blank=True, null=True)
-	wait_time = models.FloatField(default=0.0)
+	wait_time = models.IntegerField(default=0)
 	status = models.CharField(max_length=100, blank=True, null=True)
 
 	def __str__(self):

@@ -1,9 +1,20 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
+
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+		<link rel="stylesheet" href="{% static 'styles.css' %}">
+		<title>Drchrono Kiosk | Welcome</title>
+	</head>
+
   <body>
-  <!--FIX: this ridiculous url request needs to go somewhere else -->
-  	<h1>Welcome!</h1>
-  	<p>To sign in, please authenticate with drchrono.</p>
-    <a href="https://drchrono.com/o/authorize/?redirect_uri=http://0.0.0.0:8000/auth&response_type=code&client_id=3GN35uS1v5kIZiHCPEdtFdvpyaLEMl8nTGTQqLjo"><button>Sign in with drchrono</button></a>
+  	<div class="vertical-center">
+  	<div class="container center">
+  		<h1>Welcome!</h1>
+  		<p>To sign in, please authenticate with drchrono.</p>
+    	<a href="{{url}}"><button>Sign in with drchrono</button></a>
+    </div>
+    </div>
   </body>
 </html>

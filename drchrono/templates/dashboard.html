@@ -1,49 +1,73 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<title>Dashboard</title>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>Drchrono Kiosk | Dashboard</title>
+  </head>
 
-	</head>
+  <header>
+      <nav class="navbar bg-dark">
+      <a class="navbar-brand" href="{% url 'home' %}">drchrono kiosk</a>
+      <ul class="nav navbar-nav navbar-right">
+          <li class="nav-item"> 
+            <a class="nav-link" href="{% url 'dashboard' %}">Dashboard<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'checkin' %}">Patient Interface</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+      </ul>
+  </header>
 
 	<body>
-		<h1>Current Time</h1>
-		<p id="clock"></p>
-    <h1>Average Patient Wait Time</h1>
-    <p>{{doctor.avg_wait_time}} minutes</p>
-		<h1>Calendar</h1>
+  <div class="container clear-nav">
+    <div class="row">
+      <div class="col">
+        <h1 id="clock"></h1>
+        <p>{{date}}</p>
+      </div>
+      <div class="col text-right">
+        <h1>{{doctor.avg_wait_time}} minutes</h1>
+        <p>Average Patient Wait Time</p>
+      </div>
+    </div>
+		<h1>Today's Appointments</h1>
 		<div class="patients">
 		{% include 'show_patients.html' %}
 		</div>
+  </div>
 	</body>
 
 <footer>
 	<script>
 
-		function updateClock () {
- 			var currentTime = new Date ();
-  			var currentHours = currentTime.getHours ();
-  			var currentMinutes = currentTime.getMinutes ();
-  			var currentSeconds = currentTime.getSeconds ();
+		function update_clock () {
+ 			var current_time = new Date ();
+  			var current_hours = current_time.getHours ();
+  			var current_minutes = current_time.getMinutes ();
 
   			// Pad the minutes and seconds with leading zeros, if required
-  			currentSeconds = (currentSeconds < 10) ? "0" + currentSeconds : currentSeconds;
-  			currentMinutes = (currentMinutes < 10) ? "0" + currentMinutes : currentMinutes;
+  			current_minutes = (current_minutes < 10) ? "0" + current_minutes : current_minutes;
 
 
   			// Convert an hours component of "0" to "12"
-  			var time_of_day = (currentHours >= 12 ? 'PM' : 'AM');
-  			currentHours = ( currentHours > 12) ? currentHours - 12 : currentHours; 
-  			currentHours = ( currentHours == 0 ) ? 12 : currentHours;
+  			var time_of_day = (current_hours >= 12 ? 'PM' : 'AM');
+  			current_hours = ( current_hours > 12) ? current_hours - 12 : current_hours; 
+  			current_hours = ( current_hours == 0 ) ? 12 : current_hours;
 
 
   			// Compose the string for display
-  			var currentTimeString = currentHours + ":" + currentMinutes + ":" + currentSeconds + " " + time_of_day;
+  			var current_time_string = current_hours + ":" + current_minutes + " " + time_of_day;
   	
   	
-   			$("#clock").html(currentTimeString);
-   	  		setInterval('updateClock()', 1000);
+   			$("#clock").html(current_time_string);
+   	  		setInterval('update_clock()', 60000);
  		}
 
 
@@ -59,7 +83,7 @@
 
 		$(function(){
     		refresh();		
-    		updateClock();
+    		update_clock();
 		});
    	  	
 	</script>

@@ -1,35 +1,44 @@
-<ul>
+<ul class="patient_list">
 		{% for a in appointments %}
-		<li>
-			<p>{{a.first_name}} {{a.last_name}}</p>
-			<p>{{a.duration}}</p>
-			{% if a.status == "" %}
-			<p>None</p>
-			{% else %}
-			<p>{{a.status}}</p>
-			{% endif %}
-			{% if a.status == "Arrived" %}
-			<p>Wait time: {{a.wait_time}} minutes</p>
-			<button onclick="appointment_start({{a.pid}})">Start Appointment</button>
-			{% elif a.status == "In Session" %}
-			<button onclick="appointment_end({{a.pid}})">Finish Appointment</button>
-			{% endif %}
+		<li class="patient">
+			<div class="row">
+				<div class="col col-8">
+					{{a.first_name}} {{a.last_name}} | {{a.scheduled_time}} | Duration: {{a.duration}} minutes |
+					{% if a.status == "" %}
+					Status: Not Arrived
+					{% else %}
+					Status: {{a.status}}
+					{% endif %}
+					{% if a.status == "Arrived" %}
+					| Wait time: {{a.wait_time}} minutes
+				</div>
+				<div class="col col-4 text-right">
+					<button onclick="appointment_start({{a.pid}})">Start Appointment</button>
+				</div>
+					{% elif a.status == "In Session" %}
+				</div>
+				<div class="col col-4 text-right">
+					<button onclick="appointment_end({{a.pid}})">Finish Appointment</button>
+				</div>
+					{% endif %}
+			</div>
 		</li>
 		{% endfor %}
 </ul>
 
 <footer>
-	<script>
+	<script type="text/javascript">
 	function appointment_start(pid) {
+		var patient_pid = pid;
 		$.ajax({
 			type: "POST",
         	url: "{% url 'show_patients' %}",
-        	data: {'pid': pid, 'status': "In Session", csrfmiddlewaretoken:'{{csrf_token}}'},
+        	data: {'pid': pid, 'pre_status': "Arrived", 'status': "In Session", csrfmiddlewaretoken:'{{csrf_token}}'},
         	success: function() {
         		$.ajax({
 					type: "POST",
         			url: "{% url 'dashboard' %}",
-        			data: {'pid': pid, csrfmiddlewaretoken:'{{csrf_token}}'}
+        			data: {'pid': patient_pid, 'status': "In Session", csrfmiddlewaretoken:'{{csrf_token}}'}
     			});
         	}
     	});
@@ -37,11 +46,21 @@
 	}
 
 	function appointment_end(pid) {
+		var patient_pid = pid;
 		$.ajax({
 			type: "POST",
         	url: "{% url 'show_patients' %}",
-        	data: {'pid': pid, 'status': "Complete", csrfmiddlewaretoken:'{{csrf_token}}'}
+        	data: {'pid': pid, 'pre_status': "In Session", 'status': "Complete", csrfmiddlewaretoken:'{{csrf_token}}'},
+        	success: function() {
+        		$.ajax({
+					type: "POST",
+        			url: "{% url 'dashboard' %}",
+        			data: {'pid': patient_pid, csrfmiddlewaretoken:'{{csrf_token}}'}
+    			});
+        	}
     	});
+    	
 	}
+
 	</script>
 </footer>

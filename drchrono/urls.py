@@ -5,7 +5,7 @@ from . import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', TemplateView.as_view(template_name='index.html'), name='home'),
+    url(r'^$', views.index, name='home'),
     url(r'^auth/$', views.auth),
     url(r'^landing/$', views.landing, name='landing'),
     url(r'^dashboard/$', views.dashboard, name='dashboard'),
@@ -15,5 +15,6 @@ urlpatterns = [
     url(r'^demographics/$', views.demographics, name='demographics'),
     url(r'^update_demographics/$', views.update_demographics),
     url(r'^allset/$', views.allset, name='allset'),
-    #url(r'', include('social.apps.django_app.urls', namespace='social')),
+    url(r'^logout/$', views.logout, name='logout'),
+    url(r'', include('social.apps.django_app.urls', namespace='social')),
 ]

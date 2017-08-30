@@ -1,15 +1,43 @@
-<p>Please select your profile.</p>
-{% for patient in patients %}
-	<form action="/demographics/" method="post">
-	{% csrf_token %}
-	<p>{{patient.first_name}} {{patient.last_name}}</p>
-	<p>{{patient.email}}</p>
-	{% if patient.scheduled_time %}
-		<p>{{patient.scheduled_time}}</p>
-		<input type="hidden" name="id" value="{{patient.pid}}" />
-	{% else %}
-		<input type="hidden" name="id" value="{{patient.id}}" />
-	{% endif %}
-	<input type="submit" name="submit" value="Yes" />
-	</form>
-{% endfor %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+		<link rel="stylesheet" href="{% static 'styles.css' %}">
+		<title>Drchrono Kiosk | Checkin</title>
+	</head>
+
+	<body>
+		<div class="vertical-center">
+			<div class="container">
+				<h1>Please select your profile.</h1>
+				{% for patient in patients %}
+				<hr>
+					<form action="/demographics/" method="post">
+					{% csrf_token %}
+					<div class="row">
+						<div class="col">
+						</div>
+						<div class="col">
+							<p>{{patient.first_name}} {{patient.last_name}}</p>
+							<p>{{patient.email}}</p>
+							{% if patient.scheduled_time %}
+								<p>{{patient.scheduled_time}}</p>
+								<input type="hidden" name="id" value="{{patient.pid}}" />
+								<input type="hidden" name="scheduled_time" value="{{patient.scheduled_time}}" />
+							{% else %}
+								<input type="hidden" name="id" value="{{patient.id}}" />
+							{% endif %}
+						</div>
+						<div class="col">
+							<input class="bottom-align" type="submit" name="submit" value="Confirm →" />
+						</div>
+					</div>
+					</form>
+				{% endfor %}
+			</div>
+		</div>
+	</body>
+
+</html>
