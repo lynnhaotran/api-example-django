@@ -2,23 +2,67 @@
 <html>
 
 	<head>
-		
-		<title>TreasureGram</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<title>Dashboard</title>
 
 	</head>
 
 	<body>
+		<h1>Current Time</h1>
+		<p id="clock"></p>
+    <h1>Average Patient Wait Time</h1>
+    <p>{{doctor.avg_wait_time}} minutes</p>
 		<h1>Calendar</h1>
-		<ul>
-		{% for a in appointments %}
-		<li>
-			<p>{{a.name}}</p>
-			<p>{{a.scheduled_time}}</p>
-			<p>{{a.duration}}</p>
-			<p>{{a.status}}</p>
-		</li>
-		{% endfor %}
-		</ul>
+		<div class="patients">
+		{% include 'show_patients.html' %}
+		</div>
 	</body>
+
+<footer>
+	<script>
+
+		function updateClock () {
+ 			var currentTime = new Date ();
+  			var currentHours = currentTime.getHours ();
+  			var currentMinutes = currentTime.getMinutes ();
+  			var currentSeconds = currentTime.getSeconds ();
+
+  			// Pad the minutes and seconds with leading zeros, if required
+  			currentSeconds = (currentSeconds < 10) ? "0" + currentSeconds : currentSeconds;
+  			currentMinutes = (currentMinutes < 10) ? "0" + currentMinutes : currentMinutes;
+
+
+  			// Convert an hours component of "0" to "12"
+  			var time_of_day = (currentHours >= 12 ? 'PM' : 'AM');
+  			currentHours = ( currentHours > 12) ? currentHours - 12 : currentHours; 
+  			currentHours = ( currentHours == 0 ) ? 12 : currentHours;
+
+
+  			// Compose the string for display
+  			var currentTimeString = currentHours + ":" + currentMinutes + ":" + currentSeconds + " " + time_of_day;
+  	
+  	
+   			$("#clock").html(currentTimeString);
+   	  		setInterval('updateClock()', 1000);
+ 		}
+
+
+		function refresh() {
+    		$.ajax({
+        		url: "{% url 'show_patients' %}",
+        		success: function(data) {
+            	$('.patients').html(data);
+        		}
+    		});
+    		setInterval("refresh()", 60000);
+			}
+
+		$(function(){
+    		refresh();		
+    		updateClock();
+		});
+   	  	
+	</script>
+</footer>
 
 </html>

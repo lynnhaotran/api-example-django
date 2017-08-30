@@ -1,0 +1,15 @@
+<p>Please select your profile.</p>
+{% for patient in patients %}
+	<form action="/demographics/" method="post">
+	{% csrf_token %}
+	<p>{{patient.first_name}} {{patient.last_name}}</p>
+	<p>{{patient.email}}</p>
+	{% if patient.scheduled_time %}
+		<p>{{patient.scheduled_time}}</p>
+		<input type="hidden" name="id" value="{{patient.pid}}" />
+	{% else %}
+		<input type="hidden" name="id" value="{{patient.id}}" />
+	{% endif %}
+	<input type="submit" name="submit" value="Yes" />
+	</form>
+{% endfor %}
