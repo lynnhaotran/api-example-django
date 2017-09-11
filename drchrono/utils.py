@@ -19,13 +19,14 @@ def create_patient_database(request, utc_time, tz):
 
 	for appointment in appointments:
 		scheduled_time = datetime.datetime.strptime(appointment['scheduled_time'], '%Y-%m-%dT%H:%M:%S')
-
+		start_time = scheduled_time.strftime("%H:%M")
+		
 		#Get patient information
 		patient = API_request('https://drchrono.com/api/patients/' + str(appointment['patient']), 
 								request.session['access_token'])
 		
 		Patient.objects.create(pid=appointment['patient'], first_name=patient['first_name'], last_name=patient['last_name'], 
-									scheduled_time=scheduled_time, duration=appointment['duration'], status=appointment['status'])
+									scheduled_time=scheduled_time, start_time=start_time, duration=appointment['duration'], status=appointment['status'])
 
 '''def update_wait_time(tz):
 

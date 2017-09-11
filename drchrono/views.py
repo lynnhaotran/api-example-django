@@ -59,8 +59,6 @@ def dashboard(request):
 		doctor.patients_seen += 1
 		doctor.save()
 
-	print "made it past if"
-
 	return render(request, 'dashboard.html', {'doctor' : doctor, 'date' : date})
 
 
@@ -72,8 +70,8 @@ def show_patients(request):
 	patients = Patient.objects.all()
 
 	if status_change:
-		if 'scheduled_time' in status_change:
-			checkedin_patient = Patient.objects.get(scheduled_time=status_change['scheduled_time'])
+		if 'start_time' in status_change:
+			checkedin_patient = Patient.objects.get(start_time=status_change['start_time'])
 		else:
 			checkedin_patient = Patient.objects.get(pid=status_change['pid'], status=status_change['pre_status'])
 		checkedin_patient.status = status_change['status']
@@ -89,7 +87,7 @@ def show_patients(request):
 	
 	for patient in arrived_patients:
 		time_diff = datetime.datetime.now() - patient.checkin_time.replace(tzinfo=None)
-		patient.wait_time = time_diff.seconds / 60
+		patient.wait_time = time_diff.total_seconds() / 60
 		patient.save()
 
 	appointments = Patient.objects.all()
@@ -131,7 +129,7 @@ def demographics(request):
 
 	pid =request.POST.get('id')
 	request.session['id'] = request.POST.get('id')
-	request.session['scheduled_time'] = request.POST.get('scheduled_time')
+	request.session['start_time'] = request.POST.get('start_time')
 	patient = API_request('https://drchrono.com/api/patients/' + str(pid), request.session['access_token'])
 
 	request.session['initial'] = {'social_security_number': patient['social_security_number'],
@@ -154,24 +152,20 @@ def update_demographics(request):
 	response = requests.patch('https://drchrono.com/api/patients/' + request.POST.get('id'), headers={
     'Authorization': 'Bearer %s' % request.session['access_token']}, data=data)
 
+	request.session.pop('initial')
+
 	return HttpResponseRedirect(reverse('allset'))
 
 def allset(request):
 	
 	req = HttpRequest()
 	req.method = 'POST'
-	if 'scheduled_time' not in request.session:
+	if 'start_time' not in request.session:
 		req.POST = {'pid': request.session['id'], 'status': 'Arrived'}
 	else:
-		if request.session['scheduled_time'][-4:] == 'a.m.':
-			scheduled_time = datetime.datetime.strptime(request.session['scheduled_time'], '%b. %d, %Y, %H:%M a.m.')
-		else:
-			scheduled_time = datetime.datetime.strptime(request.session['scheduled_time'], '%b. %d, %Y, %H:%M p.m.')
-			print scheduled_time
-			scheduled_time =  scheduled_time if scheduled_time.hour == 12 else scheduled_time.replace(hour=scheduled_time.hour + 12)
-			print scheduled_time
-			req.POST = {'pid': request.session['id'], 'scheduled_time': scheduled_time, 'status': 'Arrived'}
-		request.session.pop('scheduled_time')
+		print request.session['start_time']
+		req.POST = {'pid': request.session['id'], 'start_time': request.session['start_time'], 'status': 'Arrived'}
+		request.session.pop('start_time')
 	request.session.pop('id')
 	show_patients(req)
 

@@ -67,7 +67,7 @@
   	
   	
    			$("#clock").html(current_time_string);
-   	  		setInterval('update_clock()', 60000);
+   	  		setTimeout('update_clock()', 60000);
  		}
 
 
@@ -78,7 +78,7 @@
             	$('.patients').html(data);
         		}
     		});
-    		setInterval("refresh()", 60000);
+    		setTimeout("refresh()", 60000);
 			}
 
 		$(function(){

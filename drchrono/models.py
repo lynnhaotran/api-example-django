@@ -22,6 +22,7 @@ class Patient(models.Model):
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	scheduled_time = models.DateTimeField()
+	start_time = models.CharField(max_length=100, null=True)
 	duration = models.IntegerField()
 	checkin_time = models.DateTimeField(blank=True, null=True)
 	wait_time = models.IntegerField(default=0)
